@@ -3,7 +3,7 @@ import Link from "next/link";
 import Table from "../components/tables/Table";
 import { useEffect, useState } from "react";
 
- const Dashboard = () =>{
+const Dashboard = () => {
   const [projectData, setProjectData] = useState([]);
 
   useEffect(() => {
@@ -12,6 +12,13 @@ import { useEffect, useState } from "react";
       setProjectData(JSON.parse(storedData));
     }
   }, []);
+
+  const handleDelete = (id) => {
+    const updatedProjects = projectData.filter(project => project.id !== id);
+    setProjectData(updatedProjects);
+    localStorage.setItem('projects', JSON.stringify(updatedProjects));
+  };
+
   return (
     <>
       <div className='flex bg-white'>
@@ -25,7 +32,7 @@ import { useEffect, useState } from "react";
         </div>
       </div>
       <hr />
-      <Table data={projectData}/>
+      <Table data={projectData} onDelete={handleDelete} />
     </>
   );
 }

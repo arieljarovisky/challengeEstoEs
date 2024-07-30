@@ -4,13 +4,18 @@ import { EllipsisVerticalIcon } from '@heroicons/react/24/outline';
 import Image from 'next/image';
 import Link from 'next/link';
 
-const Table = ({ data }) => {
+const Table = ({ data, onDelete  }) => {
     const [open, setOpen] = useState(null);
 
     const handleToggle = (id) => {
         setOpen(open === id ? null : id);
     };
+    const handleDelete = (id) => {
+    
+        localStorage.removeItem(`project-${id}`);
 
+        onDelete(id);
+    };
 
     return (
         <div className="md:px-[5%] py-[3%]">
@@ -30,7 +35,7 @@ const Table = ({ data }) => {
                             <tr key={item.id}>
                                 <td className="px-6 py-4 whitespace-nowrap ">
                                     <p className='font-md text-gray-900'>{item.projectName}</p>
-                                    <p className='text-xs text-gray-500'>Creation date:  09/09/2020 10:30 am</p>
+                                    <p className='text-xs text-gray-500'>Creation date: {item.creationDateTime}</p>
                                 </td>
                                 <td className="px-6 py-4  whitespace-nowrap text-sm text-gray-500 ">
                                     <p className='my-auto'>{item.projectManager}</p>
@@ -59,7 +64,7 @@ const Table = ({ data }) => {
                                         <div className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5">
                                             <div className="p-1">
                                                 <Link href={`/${item.id}`} className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Edit</Link>
-                                                <button className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Delete</button>
+                                                <button  onClick={() => handleDelete(item.id)} className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Delete</button>
                                             </div>
                                         </div>
                                     )}
@@ -71,10 +76,10 @@ const Table = ({ data }) => {
                 <div className="md:hidden">
                     <div className="bg-white mt-5">
                         {data.map((item, index) => (
-                            <div className="relative border border-gray-200 p-4 w-full">
+                            <div key={item.id} className="relative border border-gray-200 p-4 w-full">
 
                                 <button
-                                    onClick={() => handleToggle(item.id)} // Usar el ID del proyecto
+                                    onClick={() => handleToggle(item.id)}
                                     className="absolute top-2 right-2 flex items-center p-2 text-gray-500 hover:text-gray-700"
                                 >
                                     <EllipsisVerticalIcon className="h-5 w-5" />
@@ -83,7 +88,7 @@ const Table = ({ data }) => {
                                     <div className="text-gray-700 ">
                                         <div className="text-gray-700 mb-1">{item.projectName}</div>
                                         <div className="text-gray-400">
-                                            <span className="text-[12px]">Creation date: 09/09/2020 10:30 am</span>
+                                            <span className="text-[12px]">Creation date: {item.creationDateTime}</span>
                                         </div>
                                         <div className="flex items-center mt-2">
                                             <Image
@@ -100,8 +105,8 @@ const Table = ({ data }) => {
                                 {open === item.id && (
                                     <div className="absolute right-0 top-12 z-10 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5">
                                         <div className="p-1">
-                                            <Link href={`/editProject/${item.id}`} className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Edit</Link>
-                                            <button className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Delete</button>
+                                            <Link href={`/${item.id}}`} className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Edit</Link>
+                                            <button  onClick={() => handleDelete(item.id)} className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Delete</button>
                                         </div>
                                     </div>
                                 )}
