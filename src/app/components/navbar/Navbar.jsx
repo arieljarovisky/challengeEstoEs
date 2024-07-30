@@ -16,7 +16,7 @@ const Navbar = () => {
 
             </div>
             <div className='flex'>
-                <div className='justify-items-start px-4 py-4 ml-[5%] ' >
+                <div className='justify-items-start px-4 py-4 ml-[4%] ' >
                     <h1 className="text-lg font-semibold">My projects</h1>
                 </div>
                 <div className='ml-auto my-auto mr-[5%]	'>
