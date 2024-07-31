@@ -54,7 +54,11 @@ const Table = ({ data, onDelete  }) => {
                         </tr>
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200">
+<<<<<<< HEAD
                         {filteredData.map((item) => (
+=======
+                        {data.map((item) => (
+>>>>>>> 8c21232 (fix delete)
                             <tr key={item.id}>
                                 <td className="px-6 py-4 whitespace-nowrap ">
                                     <p className='font-md text-gray-900'>{item.projectName}</p>
