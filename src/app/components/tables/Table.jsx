@@ -4,7 +4,7 @@ import { EllipsisVerticalIcon } from '@heroicons/react/24/outline';
 import Image from 'next/image';
 import Link from 'next/link';
 
-const Table = ({ data }) => {
+const Table = ({ data, onDelete }) => {
     const [open, setOpen] = useState(null);
     const [searchTerm, setSearchTerm] = useState("");
     const [tableData, setTableData] = useState(data);
@@ -25,10 +25,12 @@ const Table = ({ data }) => {
     );
 
     const handleDelete = (id) => {
-        console.log("se elimino el "+ id)
-        const updatedData = tableData.filter((item) => item.id !== id);
-        setTableData(updatedData);
+        tableData.filter((item) => item.id !== id);
+        localStorage.removeItem(`project-${id}`);
+
+        onDelete(id);
     };
+
 
     return (
         <div className="md:px-[5%] py-[3%]">
