@@ -2,11 +2,11 @@
 
 import { ArrowLeftIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
-import { useParams, useRouter } from 'next/navigation'; // Usa useParams para obtener parámetros
+import { useParams, useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
 
 const EditProject = () => {
-  const { id } = useParams(); // Obtén el ID del parámetro de la URL
+  const { id } = useParams();
   const router = useRouter();
   const [project, setProject] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -23,7 +23,7 @@ const EditProject = () => {
           setProject(projectToEdit);
         } else {
           alert('Project not found');
-          router.push('/'); // Redirige si no se encuentra el proyecto
+          router.push('/');
         }
       }
       setLoading(false);
