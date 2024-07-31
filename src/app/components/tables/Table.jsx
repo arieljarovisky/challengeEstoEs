@@ -4,19 +4,14 @@ import { EllipsisVerticalIcon } from '@heroicons/react/24/outline';
 import Image from 'next/image';
 import Link from 'next/link';
 
-const Table = ({ data, onDelete  }) => {
+const Table = ({ data }) => {
     const [open, setOpen] = useState(null);
     const [searchTerm, setSearchTerm] = useState("");
 
     const handleToggle = (id) => {
         setOpen(open === id ? null : id);
     };
-    const handleDelete = (id) => {
-    
-        localStorage.removeItem(`project-${id}`);
 
-<<<<<<< HEAD
-<<<<<<< HEAD
     const handleSearch = (event) => {
         setSearchTerm(event.target.value);
     };
@@ -27,14 +22,6 @@ const Table = ({ data, onDelete  }) => {
         item.assignedTo.toLowerCase().includes(searchTerm.toLowerCase()) ||
         item.status.toLowerCase().includes(searchTerm.toLowerCase())
     );
-=======
-        onDelete(id);
-    };
->>>>>>> 9c6a8ee (function delete)
-=======
-        onDelete(id);
-    };
->>>>>>> 0054f53117c874191eb508bbd41a398915c4cb9c
 
     return (
         <div className="md:px-[5%] py-[3%]">
@@ -59,15 +46,7 @@ const Table = ({ data, onDelete  }) => {
                         </tr>
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200">
-<<<<<<< HEAD
-<<<<<<< HEAD
                         {filteredData.map((item) => (
-=======
-                        {data.map((item) => (
->>>>>>> 8c21232 (fix delete)
-=======
-                        {data.map((item) => (
->>>>>>> 0054f53117c874191eb508bbd41a398915c4cb9c
                             <tr key={item.id}>
                                 <td className="px-6 py-4 whitespace-nowrap ">
                                     <p className='font-md text-gray-900'>{item.projectName}</p>
@@ -100,7 +79,7 @@ const Table = ({ data, onDelete  }) => {
                                         <div className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5">
                                             <div className="p-1">
                                                 <Link href={`/${item.id}`} className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Edit</Link>
-                                                <button  onClick={() => handleDelete(item.id)} className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Delete</button>
+                                                <button className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Delete</button>
                                             </div>
                                         </div>
                                     )}
@@ -111,14 +90,8 @@ const Table = ({ data, onDelete  }) => {
                 </table>
                 <div className="md:hidden">
                     <div className="bg-white mt-5">
-<<<<<<< HEAD
                         {filteredData.map((item, index) => (
                             <div className="relative border border-gray-200 p-4 w-full" key={item.id}>
-=======
-                        {data.map((item, index) => (
-                            <div key={item.id} className="relative border border-gray-200 p-4 w-full">
-
->>>>>>> 9c6a8ee (function delete)
                                 <button
                                     onClick={() => handleToggle(item.id)}
                                     className="absolute top-2 right-2 flex items-center p-2 text-gray-500 hover:text-gray-700"
@@ -146,8 +119,8 @@ const Table = ({ data, onDelete  }) => {
                                 {open === item.id && (
                                     <div className="absolute right-0 top-12 z-10 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5">
                                         <div className="p-1">
-                                            <Link href={`/${item.id}}`} className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Edit</Link>
-                                            <button  onClick={() => handleDelete(item.id)} className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Delete</button>
+                                            <Link href={`/editProject/${item.id}`} className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Edit</Link>
+                                            <button className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Delete</button>
                                         </div>
                                     </div>
                                 )}
