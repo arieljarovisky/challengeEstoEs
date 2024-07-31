@@ -8,7 +8,7 @@ const Table = ({ data, onDelete }) => {
     const [open, setOpen] = useState(null);
     const [searchTerm, setSearchTerm] = useState("");
     const [currentPage, setCurrentPage] = useState(1);
-    const itemsPerPage = 1;
+    const itemsPerPage = 5;
 
     const handleToggle = (id) => {
         setOpen(open === id ? null : id);
