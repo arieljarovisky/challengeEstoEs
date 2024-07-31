@@ -7,7 +7,7 @@ import Link from 'next/link';
 const Table = ({ data }) => {
     const [open, setOpen] = useState(null);
     const [searchTerm, setSearchTerm] = useState("");
-
+    const [tableData, setTableData] = useState(data);
     const handleToggle = (id) => {
         setOpen(open === id ? null : id);
     };
@@ -16,12 +16,19 @@ const Table = ({ data }) => {
         setSearchTerm(event.target.value);
     };
 
+
     const filteredData = data.filter((item) =>
         item.projectName.toLowerCase().includes(searchTerm.toLowerCase()) ||
         item.projectManager.toLowerCase().includes(searchTerm.toLowerCase()) ||
         item.assignedTo.toLowerCase().includes(searchTerm.toLowerCase()) ||
         item.status.toLowerCase().includes(searchTerm.toLowerCase())
     );
+
+    const handleDelete = (id) => {
+        console.log("se elimino el "+ id)
+        const updatedData = tableData.filter((item) => item.id !== id);
+        setTableData(updatedData);
+    };
 
     return (
         <div className="md:px-[5%] py-[3%]">
@@ -79,7 +86,7 @@ const Table = ({ data }) => {
                                         <div className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5">
                                             <div className="p-1">
                                                 <Link href={`/${item.id}`} className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Edit</Link>
-                                                <button className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Delete</button>
+                                                <button  onClick={() => handleDelete(item.id)} className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Delete</button>
                                             </div>
                                         </div>
                                     )}
@@ -119,7 +126,7 @@ const Table = ({ data }) => {
                                 {open === item.id && (
                                     <div className="absolute right-0 top-12 z-10 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5">
                                         <div className="p-1">
-                                            <Link href={`/editProject/${item.id}`} className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Edit</Link>
+                                            <Link href={`/${item.id}`} className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Edit</Link>
                                             <button className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Delete</button>
                                         </div>
                                     </div>
