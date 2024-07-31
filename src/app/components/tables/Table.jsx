@@ -7,15 +7,23 @@ import Link from 'next/link';
 const Table = ({ data, onDelete }) => {
     const [open, setOpen] = useState(null);
     const [searchTerm, setSearchTerm] = useState("");
-    const [tableData, setTableData] = useState(data);
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 1;
+
     const handleToggle = (id) => {
         setOpen(open === id ? null : id);
     };
 
     const handleSearch = (event) => {
         setSearchTerm(event.target.value);
+        setCurrentPage(1); 
     };
 
+    const handleDelete = (id) => {
+        const updatedData = data.filter((item) => item.id !== id);
+        localStorage.removeItem(`project-${id}`);
+        onDelete(id);
+    };
 
     const filteredData = data.filter((item) =>
         item.projectName.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -24,17 +32,16 @@ const Table = ({ data, onDelete }) => {
         item.status.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
-    const handleDelete = (id) => {
-        tableData.filter((item) => item.id !== id);
-        localStorage.removeItem(`project-${id}`);
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    const currentItems = filteredData.slice(indexOfFirstItem, indexOfLastItem);
+    const totalPages = Math.ceil(filteredData.length / itemsPerPage);
 
-        onDelete(id);
-    };
-
+    const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
     return (
         <div className="md:px-[5%] py-[3%]">
-            <div className="mb-4">
+            <div className="md:mb-4 ml-2">
                 <input
                     type="text"
                     placeholder="Search..."
@@ -55,13 +62,13 @@ const Table = ({ data, onDelete }) => {
                         </tr>
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200">
-                        {filteredData.map((item) => (
+                        {currentItems.map((item) => (
                             <tr key={item.id}>
                                 <td className="px-6 py-4 whitespace-nowrap ">
                                     <p className='font-md text-gray-900'>{item.projectName}</p>
                                     <p className='text-xs text-gray-500'>Creation date: {item.creationDateTime}</p>
                                 </td>
-                                <td className="px-6 py-4  whitespace-nowrap text-sm text-gray-500 ">
+                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                     <p className='my-auto'>{item.projectManager}</p>
                                 </td>
                                 <td className="px-6 py-5 whitespace-nowrap text-sm text-gray-500 flex">
@@ -99,7 +106,7 @@ const Table = ({ data, onDelete }) => {
                 </table>
                 <div className="md:hidden">
                     <div className="bg-white mt-5">
-                        {filteredData.map((item, index) => (
+                        {currentItems.map((item, index) => (
                             <div className="relative border border-gray-200 p-4 w-full" key={item.id}>
                                 <button
                                     onClick={() => handleToggle(item.id)}
@@ -129,7 +136,7 @@ const Table = ({ data, onDelete }) => {
                                     <div className="absolute right-0 top-12 z-10 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5">
                                         <div className="p-1">
                                             <Link href={`/${item.id}`} className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Edit</Link>
-                                            <button className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Delete</button>
+                                            <button onClick={() => handleDelete(item.id)} className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Delete</button>
                                         </div>
                                     </div>
                                 )}
@@ -137,6 +144,25 @@ const Table = ({ data, onDelete }) => {
                         ))}
                     </div>
                 </div>
+            </div>
+            <div className="flex justify-between mt-4">
+                <button
+                    onClick={() => paginate(currentPage - 1)}
+                    disabled={currentPage === 1}
+                    className="px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                    Previous
+                </button>
+                <span className="px-4 py-2">
+                    Page {currentPage} of {totalPages}
+                </span>
+                <button
+                    onClick={() => paginate(currentPage + 1)}
+                    disabled={currentPage === totalPages}
+                    className="px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                    Next
+                </button>
             </div>
         </div>
     );
