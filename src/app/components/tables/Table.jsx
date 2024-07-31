@@ -16,6 +16,7 @@ const Table = ({ data, onDelete  }) => {
         localStorage.removeItem(`project-${id}`);
 
 <<<<<<< HEAD
+<<<<<<< HEAD
     const handleSearch = (event) => {
         setSearchTerm(event.target.value);
     };
@@ -30,6 +31,10 @@ const Table = ({ data, onDelete  }) => {
         onDelete(id);
     };
 >>>>>>> 9c6a8ee (function delete)
+=======
+        onDelete(id);
+    };
+>>>>>>> 0054f53117c874191eb508bbd41a398915c4cb9c
 
     return (
         <div className="md:px-[5%] py-[3%]">
@@ -55,10 +60,14 @@ const Table = ({ data, onDelete  }) => {
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200">
 <<<<<<< HEAD
+<<<<<<< HEAD
                         {filteredData.map((item) => (
 =======
                         {data.map((item) => (
 >>>>>>> 8c21232 (fix delete)
+=======
+                        {data.map((item) => (
+>>>>>>> 0054f53117c874191eb508bbd41a398915c4cb9c
                             <tr key={item.id}>
                                 <td className="px-6 py-4 whitespace-nowrap ">
                                     <p className='font-md text-gray-900'>{item.projectName}</p>
